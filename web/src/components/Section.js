@@ -1,59 +1,12 @@
 import PropTypes from 'prop-types';
-import React, { Component, Fragment } from 'react';
-import { withRouter } from 'react-router';
-import Waypoint from 'react-waypoint';
+import React, { Fragment } from 'react';
 
 import Collapsible from './Collapsible';
 import HelpText from './HelpText';
 import SectionTitle from './SectionTitle';
 import SectionDesc from './SectionDesc';
+import Waypoint from './Waypoint';
 import { t } from '../i18n';
-
-const ScrollWatcher = Wrapped =>
-  withRouter(
-    class extends Component {
-      static propTypes = {
-        id: PropTypes.string,
-        location: PropTypes.object.isRequired,
-        history: PropTypes.object.isRequired
-      };
-
-      static defaultProps = {
-        id: null
-      };
-
-      handleEnter = ({ currentPosition, previousPosition }) => {
-        if (currentPosition === 'inside' && previousPosition === 'above') {
-          this.updateUrl();
-        }
-      };
-
-      handleLeave = ({ currentPosition, previousPosition }) => {
-        if (currentPosition === 'above' && previousPosition === 'inside') {
-          this.updateUrl();
-        }
-      };
-
-      updateUrl = () => {
-        const { id, location, history } = this.props;
-        const newHash = `#${id}`;
-
-        if (location.hash === newHash) return;
-        history.replace(newHash);
-      };
-
-      render() {
-        if (!this.props.id) return <Wrapped {...this.props} />;
-
-        return (
-          <div>
-            <Waypoint onEnter={this.handleEnter} onLeave={this.handleLeave} />
-            <Wrapped {...this.props} />
-          </div>
-        );
-      }
-    }
-  );
 
 const Section = ({ children, id, resource }) => {
   const title = t([resource, 'title'], { defaultValue: false });
@@ -62,6 +15,7 @@ const Section = ({ children, id, resource }) => {
 
   return (
     <section id={id} className="py2 border-bottom border-grey border-width-3">
+      {id && <Waypoint id={id} />}
       {title && <SectionTitle>{title}</SectionTitle>}
       {subheader && <div>{subheader}</div>}
       {helptext && <SectionDesc>{helptext}</SectionDesc>}
@@ -130,8 +84,5 @@ Subsection.defaultProps = {
   open: false
 };
 
-const ScrollSection = ScrollWatcher(Section);
-const ScrollSubsection = ScrollWatcher(Subsection);
-
-export default ScrollSection;
-export { Chunk, ScrollSection as Section, ScrollSubsection as Subsection };
+export default Section;
+export { Chunk, Section, Subsection };
