@@ -35,7 +35,7 @@
     "Nikki Lee",
     "Laura Poncé",
     "Brendan Sudol",
-    "Greg Walker" 
+    "Greg Walker"
   ],
   "license": "CC0-1.0",
   "bugs": {
@@ -73,6 +73,7 @@
     "react-router-redux": "^5.0.0-alpha.9",
     "react-table": "^6.8.6",
     "react-text-mask": "^5.4.1",
+    "react-waypoint": "^8.0.2",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
     "sinon": "^4.4.2",
